@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App!</title>
+    <style>
+        body {
+            background-color: rgb(84, 1, 56);
+            text-align: center;
+        }
+
+        h1 {
+            color: aliceblue;
+            font-size: 100px;
+        }
+
+        h2 {
+            color: aliceblue;
+            font-size: 40px;
+        }
+
+        table,
+        th,
+        td {
+            border-collapse: collapse;
+            color: white;
+            font-size: 20px;
+        }
+
+        .center {
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>App Section!!</h1>
+    <hr style="width:30%;color:white">
+    <h2>Node App</h2>
+    <hr style="width:30%;color:white">
+    <table class="center">
+        <tr>
+            <td><b>Hostname : </b>
+                <%= env_data.HOSTNAME %>
+            </td>
+        </tr>
+        <tr>
+            <td><b>Node IP : </b>
+                <%= env_data.NODE_IP %>
+            </td>
+        </tr>
+        <tr>
+            <td><b>Pod IP : </b>
+                <%= env_data.POD_IP %>
+            </td>
+        </tr>
+    </table>
+    <hr style="width:30%;color:white"><br>
+    <button style="width: 70px;"><a style="font-size: 15px;" href="/"><b>Home</b></a></button>
+</body>
+
+</html>

@@ -1,20 +1,18 @@
 # Simple NodeJS Web Application with Jenkins and ArgoCD CICD Pipiline
+
 This is used in the demonstration of Develop, Test and Deploy a Web Application with Jenkins and ArgoCD Operator into Kubernetes Enviroment.
-  
 
-## 1. CICD Architecture Diagram 
+## 1. CICD Architecture Diagram
 
-![images](cicd_architecture.jpg)
-
+![CICD Architecture](/images/cicd_architecture.jpg 'CICD Architecture')
 
 ## 2. App Web View Snapshot
 
-![images](web_view.jpg)
-
+![Web View](/images/web_view.jpg 'Web View')
 
 ## 3. Pipeline Stages:
 
-  - CICD Pipeline have following stages
+- CICD Pipeline have following stages
   - Declarative: Checkout SCM
   - Script Initialization
   - Load Env Variables
@@ -25,18 +23,15 @@ This is used in the demonstration of Develop, Test and Deploy a Web Application 
   - Build Docker Image
   - Scan Docker Image with Trivy
   - Push Image to Nexus Docker Hub
-  - Update the SCM menifest with latest image version 
+  - Update the SCM menifest with latest image version
   - Pull the updated menifest and deploy the app with ArgoCD to K8s Cluster
   - Test the running pod on K8s Cluster
 
-
-## 4. Test Your App
+## 4. Test Your Web App
 
 Open a browser and go to URL
 
         http://<IP>:5000                      => Welcome
-        http://<IP>:5000/app                  => This is the App Section!!
-
 
 ## Credential need to cerate on Jenkins are following
 

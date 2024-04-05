@@ -22,20 +22,34 @@ setup:
 	npm install
 	@echo -e '\nApp environment setup has been successfully completed...!\n'
 
-# Format code using Black
-format:
-	##
+# Format and Lint code test
+code-test:
+	@echo -e '\n---------------------------------------------------------'
+	@echo -e 'Lint Testing !!'
+	@echo -e '---------------------------------------------------------'
+	npm run lint
+	@echo -e '\n---------------------------------------------------------'
+	@echo -e 'Format Testing !!'
+	@echo -e '---------------------------------------------------------'
+	npm run format
+	@echo -e '--------------------------[EOT]--------------------------'
 
-# Lint code using Flake8
-lint:
-	##
 
-# Format and Lint code using Black and Flake8
-ctest: format lint
-
-# Run unit tests
+# Run unit testing with formatting and lint
 test:
-	##
+	@echo -e '\n---------------------------------------------------------'
+	@echo -e 'Lint Testing !!'
+	@echo -e '---------------------------------------------------------'
+	npm run lint
+	@echo -e '\n---------------------------------------------------------'
+	@echo -e 'Format Testing !!'
+	@echo -e '---------------------------------------------------------'
+	npm run format
+	@echo -e '\n---------------------------------------------------------'
+	@echo -e 'Unit Testing !!'
+	@echo -e '---------------------------------------------------------'
+	npm run test
+	@echo -e '--------------------------[EOT]--------------------------'
 
 # Start the app
 run:

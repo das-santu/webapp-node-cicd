@@ -5,12 +5,14 @@
   "main": "app.js",
   "webapp-info": {
     "port": 3000,
-    "docker_user": "santu440"
+    "git-repo-url": "https://github.com/das-santu/webapp-node-cicd.git",
+    "docker-repo-name": "santu440",
+    "docker-repo-url": "https://registry.hub.docker.com"
   },
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js",
-    "test": "node ./node_modules/mocha/bin/mocha",
+    "test": "node ./node_modules/mocha/bin/mocha --exit",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
     "format": "prettier --write ."

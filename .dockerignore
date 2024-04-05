@@ -1,4 +1,12 @@
 node_modules
-npm - debug.log
+npm-debug.log
 Dockerfile
-    .dockerignore
+.dockerignore
+.gitignore
+.github
+argocd-menifest
+helm-charts
+images
+Jenkinsfile
+LICENSE
+*.groovy

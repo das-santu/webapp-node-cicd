@@ -1,6 +1,6 @@
 {
   "name": "webapp-node",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "This is used in the demonstration of Simple Web Application with Jenkins Pipeline Script with Groove.",
   "main": "app.js",
   "webapp-info": {

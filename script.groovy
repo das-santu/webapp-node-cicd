@@ -1,40 +1,37 @@
 def loadAppEnv() {
-    appenv = readJSON file: "${env.WORKSPACE}/version.json"
+    appenv = readJSON file: "${env.WORKSPACE}/package.json"
     return appenv
 }
 
 def installDependencies() {
-    sh 'make setup'
-}
-
-def codeFormatting() {
-    sh 'make format'
-}
-
-def codeLinting() {
-    sh 'make lint'
+    sh 'npm install'
 }
 
 def unitTest() {
     sh 'make test'
 }
 
+def codeQualityCheck() {
+    def scannerHome = tool 'SonarQube-Scanner';
+    withSonarQubeEnv('SonarQube') {
+        sh "${tool("scannerHome")}/bin/sonar-scanner -Dsonar.settings=sonar-project.properties"
+    }
+}
+
+def vulnerabilityScan() {
+    sh '##'
+}
+
 def buildApp() {
     sh 'make docker-build'
 }
 
-def testApp() {
-    docker.image(env.DOCKER_IMAGE_NAME).withRun("-p ${env.APP_PORT}:${env.APP_PORT}") { c ->
-        // Customize testing commands based on your needs
-        sh 'sleep 5'
-        sh "curl -I http://localhost:${env.APP_PORT}/"
-        sh "curl -I http://localhost:${env.APP_PORT}/app"
-        // Add more testing commands as needed
-    }
+def scanDockerImage() {
+    sh '##'
 }
 
 def pushApp() {
-    docker.withRegistry(env.DOCKER_HUB_REGISTRY_URL, env.DOCKER_HUB_CREDENTIALS_ID) {
+    docker.withRegistry(env.DOCKER_REPO_URL, env.DOCKER_CRED) {
         docker.image(env.DOCKER_IMAGE_NAME).push()
     }
 }
@@ -50,7 +47,11 @@ def deployApp() {
     }
 }
 
-def cleanEnv() {
+def cleanLocalEnv() {
+    sh 'make docker-clean'
+}
+
+def cleanProdEnv() {
     sh 'make clean'
     sh "docker images -a | grep ${env.VERSION} | awk '{print \$3}' | uniq | xargs docker rmi -f"
 }

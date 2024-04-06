@@ -1,7 +1,7 @@
 def gv
 
 pipeline {
-    agent { label 'ubuntu-agent' }
+    agent any
 
     stages {
 
@@ -16,23 +16,24 @@ pipeline {
 
         stage('Load Env Variables') {
             steps {
-                // Use the shared script to load version information from version.json
+                // Use the shared script to load version information from package.json
                 script {
                     def appEnv = gv.loadAppEnv()
 
                     // Set environment variables
-                    env.VERSION = appEnv.VERSION
-                    env.APP_NAME = appEnv.NAME
-                    env.APP_PORT = appEnv.APP_PORT
-                    env.GIT_REPO_URL = appEnv.GIT_REPO_URL
-                    env.GIT_CREDENTIALS_ID = appEnv.GIT_CREDENTIALS_ID
-                    env.DOCKER_IMAGE_NAME = "${appEnv.DOCKER_HUB_USER}/${appEnv.NAME}:${appEnv.VERSION}"
-                    env.DOCKER_HUB_REGISTRY_URL = appEnv.DOCKER_HUB_REGISTRY_URL
-                    env.DOCKER_HUB_CREDENTIALS_ID = appEnv.DOCKER_HUB_CREDENTIALS_ID
-                    env.PROD_SERVER_PORT = appEnv.PROD_SERVER_PORT
-                    env.MASTER_SERVER_CRED_ID = appEnv.MASTER_SERVER_CRED_ID
-                    env.PROD_SERVER_USER = appEnv.PROD_SERVER_USER
-                    env.PROD_SERVER_HOST = appEnv.PROD_SERVER_HOST
+                    env.VERSION = appEnv.version
+                    env.APP_NAME = appEnv.name
+                    env.APP_PORT = appEnv.webapp-info.port
+                    env.GIT_REPO_URL = appEnv.webapp-info.git-repo-url
+                    env.GIT_CRED = GIT_CRED
+                    env.DOCKER_IMAGE_NAME = "${appEnv.webapp-info.docker_user}/${appEnv.name}:${appEnv.version}"
+                    env.DOCKER_REPO_URL = appEnv.webapp-info.docker-repo-url
+                    env.DOCKER_CRED = DOCKER_CRED
+
+                    // env.PROD_SERVER_PORT = appEnv.PROD_SERVER_PORT
+                    // env.MASTER_SERVER_CRED_ID = appEnv.MASTER_SERVER_CRED_ID
+                    // env.PROD_SERVER_USER = appEnv.PROD_SERVER_USER
+                    // env.PROD_SERVER_HOST = appEnv.PROD_SERVER_HOST
                 }
             }
         }
@@ -45,76 +46,87 @@ pipeline {
                 }
             }
         }
-        stage('Black - Code Formatting') {
-            steps {
-                // Run Black for code formatting
-                script {
-                    gv.codeFormatting()
-                }
-            }
-        }
 
-        stage('Flake8 - Code Linting') {
+        stage('Unit Testing') {
             steps {
-                // Run Flake8 for code linting
-                script {
-                    gv.codeLinting()
-                }
-            }
-        }
-
-        stage('Unit Tests') {
-            steps {
-                // Run your Python unit tests here
+                // Run your node unit tests here
                 script {
                     gv.unitTest()
                 }
             }
         }
 
-        stage('Build Docker Image') {
+        stage('Code Quality Check') {
             steps {
-                // Build the Docker image
+                // Run your Python unit tests here
                 script {
-                    gv.buildApp()
+                    gv.codeQualityCheck()
                 }
             }
         }
 
-        stage('Test Docker Image') {
-            steps {
-                // Run tests on the Docker image
-                script {
-                    gv.testApp()
-                }
-            }
-        }
+    //     stage('Vulnerability Scan') {
+    //         steps {
+    //             // Run your Python unit tests here
+    //             script {
+    //                 gv.vulnerabilityScan()
+    //             }
+    //         }
+    //     }
 
-        stage('Push Image to Docker Hub') {
-            steps {
-                // Push the Docker image to Docker Hub
-                script {
-                    gv.pushApp()
-                }
-            }
-        }
+    //     stage('Build Docker Image') {
+    //         steps {
+    //             // Build the Docker image
+    //             script {
+    //                 gv.buildApp()
+    //             }
+    //         }
+    //     }
 
-        stage('Deploy to Production') {
-            steps {
-                // Deploy the Docker image to the remote production server using Ansible
-                script {
-                    gv.deployApp()
-                }
-            }
-        }
+    //     stage('Scan Docker Image') {
+    //         steps {
+    //             // Run tests on the Docker image
+    //             script {
+    //                 gv.scanDockerImage()
+    //             }
+    //         }
+    //     }
+
+    //     stage('Push Image to Docker Repo') {
+    //         steps {
+    //             // Push the Docker image to Docker Hub
+    //             script {
+    //                 gv.pushApp()
+    //             }
+    //         }
+    //     }
+
+    //     stage('Deploy the App with Argocd to K8s Cluster') {
+    //         steps {
+    //             // Deploy the Docker image to the remote production server using Ansible
+    //             script {
+    //                 gv.deployApp()
+    //             }
+    //         }
+    //     }
+
+    //     stage('Check the running pods on K8s Cluster') {
+    //         steps {
+    //             // Deploy the Docker image to the remote production server using Ansible
+    //             script {
+    //                 gv.deployApp()
+    //             }
+    //         }
+    //     }
     }
 
-    post {
-        always {
-            // Clean up steps if necessary
-            script {
-                gv.cleanEnv()
-            }
-        }
-    }
+    // post {
+    //     always {
+    //         // Clean up steps if necessary
+    //         script {
+    //             gv.cleanLocalEnv()
+    //             gv.cleanProdEnv()
+    //         }
+    //     }
+    // }
 }

@@ -25,10 +25,10 @@ pipeline {
                     env.APP_NAME = appEnv.name
                     env.APP_PORT = appEnv.webapp-info.port
                     env.GIT_REPO_URL = appEnv.webapp-info.git-repo-url
-                    env.GIT_CRED = GIT_CRED
+                    env.GIT_CRED = 'GIT_CRED'
                     env.DOCKER_IMAGE_NAME = "${appEnv.webapp-info.docker_user}/${appEnv.name}:${appEnv.version}"
                     env.DOCKER_REPO_URL = appEnv.webapp-info.docker-repo-url
-                    env.DOCKER_CRED = DOCKER_CRED
+                    env.DOCKER_CRED = 'DOCKER_CRED'
 
                     // env.PROD_SERVER_PORT = appEnv.PROD_SERVER_PORT
                     // env.MASTER_SERVER_CRED_ID = appEnv.MASTER_SERVER_CRED_ID

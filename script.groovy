@@ -19,7 +19,7 @@ def codeAnalysis() {
 }
 
 def dependencyCheck() {
-    sdependencyCheck additionalArguments: ''' 
+    dependencyCheck additionalArguments: ''' 
         -o './'
         -s './'
         -f 'ALL' 

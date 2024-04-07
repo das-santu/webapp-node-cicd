@@ -23,17 +23,12 @@ pipeline {
                     // Set environment variables
                     env.VERSION = appEnv.version
                     env.APP_NAME = appEnv.name
-                    env.APP_PORT = appEnv.webapp-info.port
-                    env.GIT_REPO_URL = appEnv.webapp-info.git-repo-url
+                    env.APP_PORT = appEnv.'app-info'.'port'
+                    env.GIT_REPO_URL = appEnv.'app-info'.'git-repo-url'
                     env.GIT_CRED = 'GIT_CRED'
-                    env.DOCKER_IMAGE_NAME = "${appEnv.webapp-info.docker-repo-name}/${appEnv.name}:${appEnv.version}"
-                    env.DOCKER_REPO_URL = appEnv.webapp-info.docker-repo-url
+                    env.DOCKER_IMAGE_NAME = "${appEnv.'app-info'.'docker-repo-name'}/${appEnv.name}:${appEnv.version}"
+                    env.DOCKER_REPO_URL = appEnv.'app-info'.'docker-repo-url'
                     env.DOCKER_CRED = 'DOCKER_CRED'
-
-                    // env.PROD_SERVER_PORT = appEnv.PROD_SERVER_PORT
-                    // env.MASTER_SERVER_CRED_ID = appEnv.MASTER_SERVER_CRED_ID
-                    // env.PROD_SERVER_USER = appEnv.PROD_SERVER_USER
-                    // env.PROD_SERVER_HOST = appEnv.PROD_SERVER_HOST
                 }
             }
         }
@@ -56,23 +51,23 @@ pipeline {
             }
         }
 
-        stage('Code Quality Check') {
+        stage('SonarQube Analysis') {
             steps {
-                // Run your Python unit tests here
+                // Run your code analysis here
                 script {
-                    gv.codeQualityCheck()
+                    gv.codeAnalysis()
                 }
             }
         }
 
-    //     stage('Vulnerability Scan') {
-    //         steps {
-    //             // Run your Python unit tests here
-    //             script {
-    //                 gv.vulnerabilityScan()
-    //             }
-    //         }
-    //     }
+        stage('Dependency Check') {
+            steps {
+                // Run your dependency check here
+                script {
+                    gv.dependencyCheck()
+                }
+            }
+        }
 
     //     stage('Build Docker Image') {
     //         steps {

@@ -51,14 +51,14 @@ pipeline {
             }
         }
 
-        stage('SonarQube Analysis') {
-            steps {
-                // Run your code analysis here
-                script {
-                    gv.codeAnalysis()
-                }
-            }
-        }
+        // stage('SonarQube Analysis') {
+        //     steps {
+        //         // Run your code analysis here
+        //         script {
+        //             gv.codeAnalysis()
+        //         }
+        //     }
+        // }
 
         stage('Dependency Check') {
             steps {

@@ -8,7 +8,7 @@ def installDependencies() {
 }
 
 def unitTest() {
-    sh 'make test'
+    sh 'npm test'
 }
 
 def codeAnalysis() {

@@ -36,9 +36,10 @@ def scanAppImage() {
 }
 
 def pushAppImage() {
-    docker.withRegistry(env.NEXUS_DOCKER_REPO, env.NEXUS_CREDS) {
-        docker.image(env.DOCKER_IMAGE_NAME).push()
-    }
+    withCredentials([usernamePassword(credentialsId: 'nexus_creds', passwordVariable: 'pass', usernameVariable: 'user')]) {
+          sh "docker login ${NEXUS_DOCKER_REPO} -u ${env.user} -p ${env.pass}"
+          sh "docker push ${env.DOCKER_IMAGE_NAME}"
+        }
 }
 
 // def deployApp() {

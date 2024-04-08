@@ -27,21 +27,19 @@ def dependencyCheck() {
     dependencyCheckPublisher pattern: 'dependency-check-report.xml'
 }
 
-// def testApp() {
-//     docker.image(env.DOCKER_IMAGE_NAME).withRun("-p ${env.APP_PORT}:${env.APP_PORT}") { c ->
-//         // Customize testing commands based on your needs
-//         sh 'sleep 5'
-//         sh "curl -I http://localhost:${env.APP_PORT}/"
-//         sh "curl -I http://localhost:${env.APP_PORT}/app"
-//         // Add more testing commands as needed
-//     }
-// }
+def buildAppImage() {
+    sh 'make docker-build'
+}
 
-// def pushApp() {
-//     docker.withRegistry(env.DOCKER_HUB_REGISTRY_URL, env.DOCKER_HUB_CREDENTIALS_ID) {
-//         docker.image(env.DOCKER_IMAGE_NAME).push()
-//     }
-// }
+def scanAppImage() {
+    sh "trivy image ${env.DOCKER_IMAGE_NAME}"
+}
+
+def pushAppImage() {
+    docker.withRegistry(env.NEXUS_DOCKER_REPO, env.NEXUS_CREDS) {
+        docker.image(env.DOCKER_IMAGE_NAME).push()
+    }
+}
 
 // def deployApp() {
 //     // Log in to Docker registry using Jenkins Docker Hub credentials

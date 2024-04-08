@@ -83,7 +83,7 @@ JSON_FILE = package.json
 CONTAINER_NAME = $(shell jq -r .name $(JSON_FILE))
 VERSION = $(shell jq -r .version $(JSON_FILE))
 APP_PORT = 3000# $(shell jq -r .APP_PORT $(JSON_FILE))
-DOCKER_HUB_USER = santu440# $(shell jq -r .DOCKER_HUB_USER $(JSON_FILE))
+DOCKER_HUB_USER = 192.168.56.12:8084# $(shell jq -r .DOCKER_HUB_USER $(JSON_FILE))
 DOCKER_IMAGE_NAME = ${DOCKER_HUB_USER}/${CONTAINER_NAME}:${VERSION}
 
 # Build app docker image

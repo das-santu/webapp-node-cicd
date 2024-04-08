@@ -3,6 +3,11 @@ def gv
 pipeline {
     agent any
 
+    environment {
+        NEXUS_CREDS = credentials('nexus_creds')
+        NEXUS_DOCKER_REPO = '192.168.56.12:8084'
+    }
+
     stages {
 
         stage('Script Initialization') { 
@@ -60,41 +65,41 @@ pipeline {
         //     }
         // }
 
-        stage('Dependency Check') {
+        // stage('Dependency Check') {
+        //     steps {
+        //         // Run your dependency check here
+        //         script {
+        //             gv.dependencyCheck()
+        //         }
+        //     }
+        // }
+
+        stage('Build Docker Image') {
             steps {
-                // Run your dependency check here
+                // Build the Docker image
                 script {
-                    gv.dependencyCheck()
+                    gv.buildAppImage()
                 }
             }
         }
 
-    //     stage('Build Docker Image') {
-    //         steps {
-    //             // Build the Docker image
-    //             script {
-    //                 gv.buildApp()
-    //             }
-    //         }
-    //     }
+        stage('Scan Docker Image') {
+            steps {
+                // Run tests on the Docker image
+                script {
+                    gv.scanAppImage()
+                }
+            }
+        }
 
-    //     stage('Scan Docker Image') {
-    //         steps {
-    //             // Run tests on the Docker image
-    //             script {
-    //                 gv.scanDockerImage()
-    //             }
-    //         }
-    //     }
-
-    //     stage('Push Image to Docker Repo') {
-    //         steps {
-    //             // Push the Docker image to Docker Hub
-    //             script {
-    //                 gv.pushApp()
-    //             }
-    //         }
-    //     }
+        stage('Push Image to Docker Repo') {
+            steps {
+                // Push the Docker image to Docker Hub
+                script {
+                    gv.pushAppImage()
+                }
+            }
+        }
 
     //     stage('Deploy the App with Argocd to K8s Cluster') {
     //         steps {

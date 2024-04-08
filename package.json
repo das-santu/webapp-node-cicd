@@ -6,7 +6,7 @@
   "app-info": {
     "port": 3000,
     "git-repo-url": "https://github.com/das-santu/webapp-node-cicd.git",
-    "docker-repo-name": "192.168.56.12:8080",
+    "docker-repo-name": "192.168.56.12:8084",
     "docker-repo-url": "https://registry.hub.docker.com"
   },
   "scripts": {
